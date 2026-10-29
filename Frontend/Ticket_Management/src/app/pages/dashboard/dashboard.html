@@ -1,0 +1,262 @@
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <!-- <img class="img" src="Vintech.png"  href="https://vintechin.com/" alt="Vintech Logo"> -->
+                <a href="https://vintechin.com/" target="_blank" rel="noopener noreferrer">
+                    <img class="img" src="Vintech.png" href="https://vintechin.com/" alt="Vintech Logo">
+                </a>
+
+            </div>
+            <h2>Vintech</h2>
+            <p>Help Desk System</p>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a routerLink="/dashboard" class="menu-item active">
+                <span>📊</span> Dashboard
+            </a>
+
+            <a routerLink="/raiseticket" *ngIf="!isAdmin" class="create-btn">
+                ＋ Create Ticket
+            </a>
+
+            <a routerLink="/my-tickets" *ngIf="!isAdmin" class="menu-item">
+                <span>🎟️</span> My Tickets
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="logout-btn" (click)="$event.preventDefault(); logout()">
+                <span>🚪</span> Logout
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+
+        <header class="dashboard-header">
+            <div class="header-title">
+                <h1>It's Home</h1>
+                <p>Welcome to the Help Desk Ticket Management System</p>
+            </div>
+
+            <div class="header-right">
+
+                <!-- Profile: visible for both User and Admin -->
+                <div class="user-profile">
+                    <div class="profile-avatar">
+                        {{ userInitial }}
+                    </div>
+
+                    <div class="profile-details">
+                        <span class="profile-username">
+                            {{ currentUsername }}
+                        </span>
+
+                        <span class="profile-role" [ngClass]="{
+                    'admin-role': isAdmin,
+                    'user-role': !isAdmin
+                }">
+                            {{ isAdmin ? 'Admin' : 'User' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Create Ticket: only for regular users -->
+                <!-- <a routerLink="/raiseticket" *ngIf="!isAdmin" class="header-create-btn">
+                    ＋ Create Ticket
+                </a> -->
+
+            </div>
+        </header>
+
+
+        <!-- Welcome Card -->
+        <section class="welcome-card">
+            <div>
+                <h1>Welcome!</h1>
+                <p>
+                    Manage your support requests and track your ticket status
+                    from one place.
+                </p>
+            </div>
+
+            <div class="welcome-icon">
+                <img class="img" src="Vintech.png" alt="Vintech Logo">
+            </div>
+
+        </section>
+
+        <!-- Statistics Cards -->
+        <section class="stats-container">
+
+            <div class="stat-card total-card">
+                <!-- Total Tickets -->
+                <div class="stat-info">
+                    <p>Total Tickets</p>
+                    <h2>{{ totalTickets }}</h2>
+                </div>
+                <div class="stat-icon">📋</div>
+            </div>
+
+            <div class="stat-card open-card">
+                <!-- Open Tickets -->
+                <div class="stat-info">
+                    <p>Open Tickets</p>
+                    <h2>{{ openTickets }}</h2>
+                </div>
+                <div class="stat-icon">📂</div>
+            </div>
+
+            <div class="stat-card progress-card">
+                <!-- In Progress Tickets -->
+                <div class="stat-info">
+                    <p>In Progress</p>
+                    <h2>{{ inProgressTickets }}</h2>
+                </div>
+                <div class="stat-icon">⚙️</div>
+            </div>
+
+            <div class="stat-card resolved-card">
+                <!-- Resolved Tickets -->
+                <div class="stat-info">
+                    <p>Resolved Tickets</p>
+                    <h2>{{ resolvedTickets }}</h2>
+                </div>
+                <div class="stat-icon">✅</div>
+            </div>
+
+        </section>
+
+        <!-- Recent Tickets -->
+        <section class="tickets-section">
+
+            <div class="section-header">
+                <div>
+                    <h2>Recent Tickets</h2>
+                    <p>View your recently created support tickets</p>
+                </div>
+
+                <!-- <a href="raiseticket.html" class="view-all-btn">
+                    + New Ticket
+                </a> -->
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="filter-container">
+                <input type="text" class="search-input" name="searchText" [(ngModel)]="searchText"
+                    placeholder="Search tickets by ID or title" />
+
+                <select class="status-filter" name="statusFilter" [(ngModel)]="statusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="Open">Open</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                    <!-- <option value="Closed">Closed</option> -->
+                </select>
+            </div>
+
+            <!-- Tickets Table -->
+            <div class="table-container">
+                <table class="tickets-table">
+
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>User Name</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        <tr *ngIf="isLoading">
+                            <td colspan="6" style="text-align: center;">
+                                Loading tickets...
+                            </td>
+                        </tr>
+
+                        <tr *ngIf="!isLoading && errorMessage">
+                            <td colspan="6" style="text-align: center;">
+                                {{ errorMessage }}
+                            </td>
+                        </tr>
+
+                        <tr *ngFor="let ticket of filteredTickets">
+                            <td>{{ ticket.id }}</td>
+                            <td>{{ticket.username}}</td>
+                            <td>{{ ticket.title }}</td>
+                            <td>{{ ticket.category }}</td>
+
+                            <td>
+                                <span class="priority-badge" [ngClass]="ticket.priority.toLowerCase()">
+                                    {{ ticket.priority }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="status-badge" [ngClass]="getStatusClass(ticket.status)">
+                                    {{ ticket.status }}
+                                </span>
+                            </td>
+
+                            <td>{{ ticket.createdDate }}</td>
+
+                            <!-- View Button -->
+                            <td>
+                                <button type="button" class="action-btn view-btn" (click)="viewTicket(ticket)">
+                                    View
+                                </button>
+                            </td>
+
+                            <!-- Edit Button -->
+                            <td>
+                                <button *ngIf="auth.isAdmin()" type="button" class="action-btn edit-btn"
+                                    (click)="editTicket(ticket)">
+                                    Edit
+                                </button>
+                                <span *ngIf="!auth.isAdmin()">—</span>
+                            </td>
+                        </tr>
+
+                        <tr *ngIf="
+    !isLoading &&
+    !errorMessage &&
+    filteredTickets.length === 0
+  ">
+                            <td colspan="6" style="text-align: center;">
+                                No tickets found.
+                            </td>
+                        </tr>
+                    </tbody>
+
+
+                </table>
+            </div>
+
+            <div class="empty-message">
+                Showing your latest tickets from the database.
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>© 2026 Vintech Help Desk. All rights reserved.</p>
+        </footer>
+
+    </main>
+</div>

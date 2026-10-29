@@ -1,0 +1,66 @@
+<div class="register">
+  <div class="register-card">
+
+    <!-- Brand Section -->
+    <div class="brand">
+      <div class="brand-icon">
+        <img class="img" src="Vintech.png" alt="Vintech Logo">
+      </div>
+
+      <h1>Help Desk</h1>
+      <h3>Ticket Management System</h3>
+      <p>Create your account</p>
+    </div>
+
+    <!-- Registration Form -->
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" [(ngModel)]="username" placeholder="Enter username" required
+          minlength="3">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" [(ngModel)]="email" placeholder="Enter email address" required
+          email>
+      </div>
+
+       <!-- Role Dropdown -->
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" name="role" [(ngModel)]="role" required>
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" [(ngModel)]="password" placeholder="Create password"
+          required minlength="8">
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword"
+          placeholder="Confirm password" required>
+      </div>
+
+     
+
+      <button type="submit" class="register-btn" [disabled]="registerForm.invalid || isLoading">
+
+        {{ isLoading ? 'Registering...' : 'Register' }}
+
+      </button>
+
+      <div class="login-link">
+        <span>Already have an account?</span>
+        <a routerLink="/login">Login here</a>
+      </div>
+
+    </form>
+  </div>
+</div>

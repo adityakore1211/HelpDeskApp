@@ -1,0 +1,115 @@
+
+* {
+  box-sizing: border-box;
+}
+
+.raiseticket {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 15px;
+  background: #f0f4f8;
+  font-family: Arial, sans-serif;
+}
+
+.ticket-card {
+  width: 100%;
+  max-width: 600px;
+  padding: 35px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.brand .img {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+}
+
+.brand h1 {
+  margin: 12px 0 8px;
+  color: #164e9b;
+}
+
+.brand h3 {
+  margin: 0 0 10px;
+  color: #344054;
+  font-size: 16px;
+}
+
+.brand p {
+  color: #667085;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #344054;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d0d5dd;
+  border-radius: 7px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 7px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background: #164e9b;
+}
+
+.back-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.back-link a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.back-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .ticket-card {
+    padding: 22px;
+  }
+}

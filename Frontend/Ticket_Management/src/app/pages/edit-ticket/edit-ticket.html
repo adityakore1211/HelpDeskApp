@@ -1,0 +1,159 @@
+<div class="edit-page">
+  <div class="edit-card">
+
+    <!-- Page Header -->
+    <h1>Edit Ticket</h1>
+    <p>Update your support ticket information.</p>
+
+    <!-- Loading Message -->
+    <div *ngIf="isLoading" class="loading-message">
+      <p>Loading ticket...</p>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="!isLoading && errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Edit Form -->
+    <div *ngIf="!isLoading && !errorMessage">
+
+      <form
+        (ngSubmit)="saveTicket()"
+        #ticketForm="ngForm"
+        novalidate
+      >
+
+        <!-- Title -->
+        <div class="form-group">
+          <label for="title">Title</label>
+
+          <input
+            id="title"
+            name="title"
+            type="text"
+            [(ngModel)]="ticket.title"
+            #title="ngModel"
+            placeholder="Enter ticket title"
+            required
+          />
+
+          <small
+            class="error"
+            *ngIf="title.invalid && title.touched"
+          >
+            Title is required.
+          </small>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label for="description">Description</label>
+
+          <textarea
+            id="description"
+            name="description"
+            rows="5"
+            [(ngModel)]="ticket.description"
+            #description="ngModel"
+            placeholder="Describe your issue"
+            required
+          ></textarea>
+
+          <small
+            class="error"
+            *ngIf="description.invalid && description.touched"
+          >
+            Description is required.
+          </small>
+        </div>
+
+        <!-- Category -->
+        <div class="form-group">
+          <label for="category">Category</label>
+
+          <select
+            id="category"
+            name="category"
+            [(ngModel)]="ticket.category"
+            required
+          >
+            <option
+              *ngFor="let category of categories"
+              [value]="category"
+            >
+              {{ category }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Priority -->
+        <div class="form-group">
+          <label for="priority">Priority</label>
+
+          <select
+            id="priority"
+            name="priority"
+            [(ngModel)]="ticket.priority"
+            required
+          >
+            <option
+              *ngFor="let priority of priorities"
+              [value]="priority"
+            >
+              {{ priority }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Status -->
+        <div class="form-group">
+          <label for="status">Status</label>
+
+          <select
+            id="status"
+            name="status"
+            [(ngModel)]="ticket.status"
+            required
+          >
+            <option
+              *ngFor="let status of statuses"
+              [value]="status"
+            >
+              {{ status }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Success Message -->
+        <p *ngIf="successMessage" class="success">
+          {{ successMessage }}
+        </p>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="cancel-btn"
+            (click)="cancel()"
+            [disabled]="isSaving"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="save-btn"
+            [disabled]="isSaving || ticketForm.invalid"
+          >
+            {{ isSaving ? 'Saving...' : 'Save Changes' }}
+          </button>
+
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>

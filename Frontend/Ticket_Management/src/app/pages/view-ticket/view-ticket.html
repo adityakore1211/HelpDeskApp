@@ -1,0 +1,123 @@
+
+<div class="ticket-page">
+  <div class="ticket-card">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div>
+        <h1>Ticket Details</h1>
+        <p>View your support ticket information</p>
+      </div>
+
+      <button
+        type="button"
+        class="back-btn"
+        (click)="goBack()">
+        Back to Dashboard
+      </button>
+    </div>
+
+    <!-- Loading Message -->
+    <div *ngIf="isLoading" class="loading">
+      <p>Loading ticket details...</p>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="!isLoading && errorMessage" class="error">
+      <p>{{ errorMessage }}</p>
+
+      <button
+        type="button"
+        class="back-btn"
+        (click)="goBack()">
+        Return to Dashboard
+      </button>
+    </div>
+
+    <!-- Ticket Details -->
+    <div *ngIf="!isLoading && !errorMessage && ticket" class="details">
+
+      <div class="detail-row">
+        <strong>Ticket ID</strong>
+        <span>{{ ticket.ticketId || 'N/A' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <strong>Title</strong>
+        <span>{{ ticket.title || 'N/A' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <strong>Description</strong>
+        <span>{{ ticket.description || 'N/A' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <strong>Category</strong>
+        <span>{{ ticket.category || 'N/A' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <strong>Email</strong>
+        <span>{{ ticket.email || 'N/A' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <strong>Department</strong>
+        <span>{{ ticket.department || 'N/A' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <strong>Location</strong>
+        <span>{{ ticket.location || 'N/A' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <strong>Priority</strong>
+        <span>{{ ticket.priority || 'N/A' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <strong>Status</strong>
+        <span>{{ ticket.status || 'N/A' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <strong>Assigned To</strong>
+        <span>{{ ticket.assignedTo || 'Not assigned' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <strong>Created Date</strong>
+        <span>
+          {{ ticket.createdAt ? (ticket.createdAt | date:'dd MMM yyyy, hh:mm a') : 'N/A' }}
+        </span>
+      </div>
+
+      <div class="detail-row">
+        <strong>Last Updated</strong>
+        <span>
+          {{ ticket.updatedAt ? (ticket.updatedAt | date:'dd MMM yyyy, hh:mm a') : 'N/A' }}
+        </span>
+      </div>
+
+      <!-- Actions -->
+      <div class="ticket-actions">
+        <button
+          type="button"
+          class="edit-btn"
+          (click)="editTicket()">
+          Edit Ticket
+        </button>
+
+        <button
+          type="button"
+          class="back-btn"
+          (click)="goBack()">
+          Back to Dashboard
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+.ticket-page {
+  min-height: 100vh;
+  padding: 35px;
+  background: #f3f6fb;
+}
+
+.ticket-card {
+  max-width: 900px;
+  margin: auto;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px #0000000d;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  color: #1e293b;
+}
+
+.page-header p {
+  color: #64748b;
+}
+
+.details {
+  display: grid;
+  gap: 0;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 15px;
+  padding: 14px 0;
+  border-bottom: 1px solid #e2e8f0;
+  overflow-wrap: anywhere;
+}
+
+.detail-row strong {
+  color: #334155;
+}
+
+.back-btn,
+.edit-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  color: white;
+  cursor: pointer;
+}
+
+.back-btn {
+  background: #475569;
+}
+
+.edit-btn {
+  margin-top: 25px;
+  background: #2563eb;
+  margin-right: 10px;
+}
+
+.error {
+  color: #dc2626;
+}
+
+@media (max-width: 600px) {
+  .ticket-page {
+    padding: 15px;
+  }
+
+  .ticket-card {
+    padding: 18px;
+  }
+
+  .page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .detail-row {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+}

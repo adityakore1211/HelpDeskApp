@@ -1,0 +1,185 @@
+
+<div class="my-tickets">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="/Vintech.png" alt="Vintech Logo" class="logo">
+      <h2>Help Desk</h2>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/raiseticket">Raise a Ticket</a>
+      <a routerLink="/my-tickets" class="active">My Tickets</a>
+    </nav>
+
+    <button type="button" class="logout" (click)="logout()">
+      Logout
+    </button>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Header -->
+    <header class="page-header">
+      <div>
+        <h1>My Tickets</h1>
+        <p>Track and manage your support requests.</p>
+      </div>
+
+      <button
+        type="button"
+        class="create-btn"
+        (click)="raiseTicket()">
+        + Raise New Ticket
+      </button>
+    </header>
+
+    <!-- Ticket Statistics -->
+    <section class="stats">
+      <div class="stat-card">
+        <span>Total Tickets</span>
+        <h2>{{ totalTickets }}</h2>
+      </div>
+
+      <div class="stat-card">
+        <span>Open</span>
+        <h2>{{ openTickets }}</h2>
+      </div>
+
+      <div class="stat-card">
+        <span>In Progress</span>
+        <h2>{{ inProgressTickets }}</h2>
+      </div>
+
+      <div class="stat-card">
+        <span>Resolved </span>
+        <h2>{{ resolvedTickets }}</h2>
+      </div>
+    </section>
+
+    <!-- Tickets Table -->
+    <section class="ticket-panel">
+
+      <div class="panel-header">
+        <h2>All My Tickets</h2>
+
+        <div class="filters">
+          <input
+            type="text"
+            class="search-input"
+            name="searchText"
+            [(ngModel)]="searchText"
+            placeholder="Search by ticket ID or title">
+
+          <select
+            class="status-filter"
+            name="statusFilter"
+            [(ngModel)]="statusFilter">
+
+            <option value="">All Statuses</option>
+            <option value="Open">Open</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+            <!-- <option value="Closed">Closed</option> -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="empty-message">
+        Loading your tickets...
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="!isLoading && errorMessage" class="empty-message">
+        <p>{{ errorMessage }}</p>
+
+        <button
+          type="button"
+          class="view-btn"
+          (click)="loadMyTickets()">
+          Try Again
+        </button>
+      </div>
+
+      <!-- Responsive Table -->
+      <div
+        class="table-container"
+        *ngIf="!isLoading && !errorMessage">
+
+        <table>
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Created Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <!-- Dynamic Ticket Rows -->
+            <tr *ngFor="let ticket of filteredTickets">
+
+              <td>{{ ticket.ticketId }}</td>
+              <td>{{ ticket.title }}</td>
+              <td>{{ ticket.category }}</td>
+
+              <td>
+                <span
+                  class="priority"
+                  [ngClass]="ticket.priority.toLowerCase()">
+                  {{ ticket.priority }}
+                </span>
+              </td>
+
+              <td>
+                <span
+                  class="status"
+                  [ngClass]="getStatusClass(ticket.status)">
+                  {{ ticket.status }}
+                </span>
+              </td>
+
+              <td>{{ ticket.createdDate }}</td>
+
+              <td>
+                <button
+                  type="button"
+                  class="view-btn"
+                  (click)="viewTicket(ticket)">
+                  View
+                </button>
+              </td>
+            </tr>
+
+            <!-- Empty State -->
+            <tr *ngIf="filteredTickets.length === 0">
+              <td colspan="7" class="empty-message">
+                <span *ngIf="totalTickets === 0">
+                  You haven't created any tickets yet.
+                </span>
+
+                <span *ngIf="totalTickets > 0">
+                  No tickets match your search or selected status.
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Footer -->
+      <div class="table-footer" *ngIf="!isLoading && !errorMessage">
+        Showing {{ filteredTickets.length }} of {{ totalTickets }} tickets
+      </div>
+
+    </section>
+  </main>
+</div>
